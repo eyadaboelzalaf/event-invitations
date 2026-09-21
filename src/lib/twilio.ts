@@ -23,22 +23,28 @@ export async function sendWhatsAppViaTwilio(
     console.log(`[Twilio] From: ${process.env.TWILIO_WHATSAPP_NUMBER}`);
     console.log(`[Twilio] To: ${toPhone}`);
 
-    // Twilio API endpoint
+    // Twilio API endpoint for Messages
     const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`;
 
-    // Format phone number for Twilio (needs to be in E.164 format: +Country Code + Number)
+    // Format phone numbers
+    // For WhatsApp sandbox: From should be whatsapp:+number, To should be whatsapp:+number
     const formattedPhone = toPhone.startsWith('+') ? toPhone : `+${toPhone}`;
+    const fromNumber = process.env.TWILIO_WHATSAPP_NUMBER.startsWith('whatsapp:') 
+      ? process.env.TWILIO_WHATSAPP_NUMBER 
+      : `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`;
 
-    // Prepare request body
+    // Prepare request body for WhatsApp
     const bodyParams = new URLSearchParams({
-      From: process.env.TWILIO_WHATSAPP_NUMBER,
+      From: fromNumber,
       To: `whatsapp:${formattedPhone}`,
       Body: message,
     });
 
-    console.log('[Twilio] Request body:', bodyParams.toString());
+    console.log('[Twilio] Sending to Twilio...');
+    console.log('[Twilio] From:', fromNumber);
+    console.log('[Twilio] To:', `whatsapp:${formattedPhone}`);
 
-    // Send via Twilio
+    // Send via Twilio API
     const response = await fetch(twilioUrl, {
       method: 'POST',
       headers: {
@@ -51,27 +57,28 @@ export async function sendWhatsAppViaTwilio(
     const data = (await response.json()) as any;
 
     if (!response.ok) {
-      console.error('[Twilio] Error Response:', {
-        status: response.status,
-        message: data.message,
-        code: data.code,
-        details: data,
-      });
+      console.error('[Twilio] ❌ Error Response:');
+      console.error('[Twilio] Status:', response.status);
+      console.error('[Twilio] Message:', data.message);
+      console.error('[Twilio] Code:', data.code);
+      console.error('[Twilio] Full response:', JSON.stringify(data, null, 2));
+      
       return {
         success: false,
         error: data.message || `Twilio error: ${response.status}`,
       };
     }
 
-    console.log('[Twilio] ✅ Message sent successfully');
+    console.log('[Twilio] ✅ Message sent successfully!');
     console.log(`[Twilio] Message SID: ${data.sid}`);
+    console.log(`[Twilio] Status: ${data.status}`);
 
     return {
       success: true,
       messageId: data.sid,
     };
   } catch (error: any) {
-    console.error('[Twilio] Exception:', error.message);
+    console.error('[Twilio] ❌ Exception:', error.message);
     return {
       success: false,
       error: error.message,

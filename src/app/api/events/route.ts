@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       .populate('templateId')
       .sort({ createdAt: -1 });
 
-    return NextResponse.json(events, { status: 200 });
+    return NextResponse.json({ events }, { status: 200 });
   } catch (error: any) {
     console.error('Fetch events error:', error);
     return NextResponse.json(

@@ -24,7 +24,7 @@ export default function CreateEventPage() {
   const { user, isAuthenticated } = useAppStore();
   const [formData, setFormData] = useState({
     title: '',
-    eventType: '',
+    type: '',
     eventDate: '',
     eventTime: '',
     location: '',
@@ -77,25 +77,39 @@ export default function CreateEventPage() {
     setIsLoading(true);
 
     try {
+      // Combine date and time into ISO datetime string
+      const isoDateTime = `${formData.eventDate}T${formData.eventTime}:00Z`;
+
+      const payload = {
+        title: formData.title,
+        type: formData.type,
+        eventDate: isoDateTime,
+        location: formData.location,
+        description: formData.description,
+        templateId: formData.templateId,
+      };
+
       const response = await fetch('/api/events', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-user-id': user?._id || '',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
         setErrors({ submit: data.error || 'Failed to create event' });
+        console.error('API Error:', data);
         return;
       }
 
       router.push(`/events/${data.event._id}/preview`);
     } catch (error) {
       setErrors({ submit: 'An error occurred. Please try again.' });
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -132,11 +146,11 @@ export default function CreateEventPage() {
 
               <Select
                 label="Event Type"
-                name="eventType"
-                value={formData.eventType}
+                name="type"
+                value={formData.type}
                 onChange={handleChange}
                 options={EVENT_TYPES}
-                error={errors.eventType}
+                error={errors.type}
                 required
               />
 

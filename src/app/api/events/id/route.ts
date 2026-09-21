@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Event from '@/models/Event';
-import Contact from '@/models/Contact';
 
 export async function GET(
   request: NextRequest,
@@ -22,8 +21,7 @@ export async function GET(
       _id: params.id,
       userId,
     })
-      .populate('templateId')
-      .populate('contacts');
+      .populate('templateId');
 
     if (!event) {
       return NextResponse.json(
@@ -64,8 +62,7 @@ export async function PUT(
       body,
       { new: true }
     )
-      .populate('templateId')
-      .populate('contacts');
+      .populate('templateId');
 
     if (!event) {
       return NextResponse.json(

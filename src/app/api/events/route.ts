@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Event from '@/models/Event';
-import Contact from '@/models/Contact';
 import { z } from 'zod';
 
 const eventSchema = z.object({
@@ -29,7 +28,6 @@ export async function GET(request: NextRequest) {
 
     const events = await Event.find({ userId })
       .populate('templateId')
-      .populate('contacts')
       .sort({ createdAt: -1 });
 
     return NextResponse.json(events, { status: 200 });

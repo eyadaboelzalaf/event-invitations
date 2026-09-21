@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Event from '@/models/Event';
+import Contact from '@/models/Contact';
 import { z } from 'zod';
 
 const eventSchema = z.object({

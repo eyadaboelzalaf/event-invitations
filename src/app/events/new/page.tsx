@@ -84,6 +84,7 @@ export default function CreateEventPage() {
         title: formData.title,
         type: formData.type,
         eventDate: isoDateTime,
+        eventTime: formData.eventTime,
         location: formData.location,
         description: formData.description,
         templateId: formData.templateId,

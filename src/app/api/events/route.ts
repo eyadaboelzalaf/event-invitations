@@ -56,16 +56,23 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const data = eventSchema.parse(body);
 
-    const event = new Event({
+    // Remove templateId if it's empty
+    const eventData: any = {
       userId,
       ...data,
       status: 'draft',
-    });
+    };
+
+    if (!eventData.templateId) {
+      delete eventData.templateId;
+    }
+
+    const event = new Event(eventData);
 
     await event.save();
     await event.populate('templateId');
 
-    return NextResponse.json(event, { status: 201 });
+    return NextResponse.json({ event }, { status: 201 });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -76,7 +83,7 @@ export async function POST(request: NextRequest) {
 
     console.error('Create event error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error.message || 'Internal server error' },
       { status: 500 }
     );
   }

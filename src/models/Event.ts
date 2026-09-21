@@ -8,7 +8,7 @@ export interface IEvent extends Document {
   eventTime: string;
   location: string;
   description: string;
-  templateId: Types.ObjectId;
+  templateId?: Types.ObjectId;
   customizations: Record<string, any>;
   contacts: Types.ObjectId[];
   sendDate?: Date;
@@ -52,7 +52,7 @@ const EventSchema: Schema = new Schema(
     templateId: {
       type: Schema.Types.ObjectId,
       ref: 'Template',
-      required: true,
+      required: false,
     },
     customizations: {
       type: Schema.Types.Mixed,

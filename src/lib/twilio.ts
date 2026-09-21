@@ -19,32 +19,53 @@ export async function sendWhatsAppViaTwilio(
       };
     }
 
-    console.log('[Twilio] Sending WhatsApp message...');
+    // Check if ContentSid is configured (required for WhatsApp templates)
+    if (!process.env.TWILIO_CONTENT_SID) {
+      console.error('[Twilio] ❌ ERROR: TWILIO_CONTENT_SID not configured!');
+      console.error('[Twilio] You must create a message template in Twilio Console and add TWILIO_CONTENT_SID to .env.local');
+      console.error('[Twilio] See TWILIO_SETUP.md for instructions');
+      return {
+        success: false,
+        error: 'TWILIO_CONTENT_SID not configured',
+      };
+    }
+
+    console.log('[Twilio] Sending WhatsApp message with template...');
     console.log(`[Twilio] From: ${process.env.TWILIO_WHATSAPP_NUMBER}`);
     console.log(`[Twilio] To: ${toPhone}`);
+    console.log(`[Twilio] ContentSid: ${process.env.TWILIO_CONTENT_SID}`);
 
-    // Twilio API endpoint for Messages
-    const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`;
-
-    // Format phone numbers
-    // For WhatsApp sandbox: From should be whatsapp:+number, To should be whatsapp:+number
-    const formattedPhone = toPhone.startsWith('+') ? toPhone : `+${toPhone}`;
+    // Ensure phone has whatsapp: prefix
     const fromNumber = process.env.TWILIO_WHATSAPP_NUMBER.startsWith('whatsapp:') 
       ? process.env.TWILIO_WHATSAPP_NUMBER 
       : `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`;
+    
+    const formattedPhone = toPhone.startsWith('+') ? toPhone : `+${toPhone}`;
+    const toNumber = `whatsapp:${formattedPhone}`;
 
-    // Prepare request body for WhatsApp
+    // Parse message to extract variables
+    // Message format: "Title\n📅 Date\n🕐 Time\n📍 Location\n\nDescription\n\nRSVP Link"
+    const lines = message.split('\n').filter(line => line.trim());
+    const title = lines[0].replace('🎉 You\'re invited to ', '').replace('!', '');
+    const date = lines[1].replace('📅 ', '');
+    const time = lines[2].replace('🕐 ', '');
+    const location = lines[3].replace('📍 ', '');
+    const description = lines[4] || '';
+    const rsvpUrl = lines[lines.length - 1];
+
+    const contentVariables = JSON.stringify([title, date, time, location, description, rsvpUrl]);
+
     const bodyParams = new URLSearchParams({
       From: fromNumber,
-      To: `whatsapp:${formattedPhone}`,
-      Body: message,
+      To: toNumber,
+      ContentSid: process.env.TWILIO_CONTENT_SID,
+      ContentVariables: contentVariables,
     });
 
-    console.log('[Twilio] Sending to Twilio...');
-    console.log('[Twilio] From:', fromNumber);
-    console.log('[Twilio] To:', `whatsapp:${formattedPhone}`);
+    console.log('[Twilio] Request variables:', [title, date, time, location, description, rsvpUrl]);
 
-    // Send via Twilio API
+    const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`;
+
     const response = await fetch(twilioUrl, {
       method: 'POST',
       headers: {
@@ -61,7 +82,6 @@ export async function sendWhatsAppViaTwilio(
       console.error('[Twilio] Status:', response.status);
       console.error('[Twilio] Message:', data.message);
       console.error('[Twilio] Code:', data.code);
-      console.error('[Twilio] Full response:', JSON.stringify(data, null, 2));
       
       return {
         success: false,
@@ -71,7 +91,6 @@ export async function sendWhatsAppViaTwilio(
 
     console.log('[Twilio] ✅ Message sent successfully!');
     console.log(`[Twilio] Message SID: ${data.sid}`);
-    console.log(`[Twilio] Status: ${data.status}`);
 
     return {
       success: true,

@@ -10,7 +10,7 @@ const eventSchema = z.object({
   eventTime: z.string(),
   location: z.string().min(1),
   description: z.string().optional(),
-  templateId: z.string(),
+  templateId: z.string().optional().refine((val) => !val || val.length > 0, 'Invalid template ID'),
   customizations: z.record(z.any()).optional(),
 });
 

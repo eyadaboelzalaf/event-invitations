@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Event from '@/models/Event';
+import { sendWhatsAppMessage } from '@/lib/whatsapp-client';
 import { z } from 'zod';
 
 const sendSchema = z.object({
@@ -10,7 +11,7 @@ const sendSchema = z.object({
 });
 
 // Generate invitation message from event
-function generateInvitationMessage(event: any): string {
+function generateInvitationMessage(event: any, invitationUrl: string): string {
   const eventDate = new Date(event.eventDate).toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -18,32 +19,15 @@ function generateInvitationMessage(event: any): string {
     day: 'numeric',
   });
 
-  return `🎉 You're invited!\n\n${event.title}\n\n📅 ${eventDate} at ${event.eventTime}\n📍 ${event.location}\n\nPlease click the link below to confirm your attendance:\n{invitation_link}`;
-}
+  return `🎉 You're invited to ${event.title}!
 
-// For production, use Twilio or another WhatsApp API provider
-// This is a placeholder for the send logic
-async function sendWhatsAppMessage(
-  phone: string,
-  message: string
-): Promise<{ messageId: string; success: boolean }> {
-  try {
-    // TODO: Implement actual WhatsApp API call using Twilio or similar
-    // For now, return mock response
-    console.log(`[WHATSAPP TEST] Sending to ${phone}`);
-    console.log(`[WHATSAPP TEST] Message: ${message}`);
+📅 ${eventDate}
+🕐 ${event.eventTime}
+📍 ${event.location}
 
-    return {
-      messageId: `msg_${Date.now()}`,
-      success: true,
-    };
-  } catch (error) {
-    console.error('WhatsApp send error:', error);
-    return {
-      messageId: '',
-      success: false,
-    };
-  }
+${event.description ? `📝 ${event.description}\n` : ''}
+Please click the link below to confirm your attendance:
+${invitationUrl}`;
 }
 
 export async function POST(request: NextRequest) {
@@ -67,18 +51,23 @@ export async function POST(request: NextRequest) {
     const invitationUrl = `${appUrl}/rsvp/${data.eventId}`;
 
     // Generate message
-    const messageTemplate = generateInvitationMessage(event);
-    const message = messageTemplate.replace('{invitation_link}', invitationUrl);
+    const message = generateInvitationMessage(event, invitationUrl);
 
     // Send WhatsApp message
     const result = await sendWhatsAppMessage(data.phone, message);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error || 'Failed to send message' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: result.success,
         messageId: result.messageId,
         phone: data.phone,
-        message: message,
         invitationUrl: invitationUrl,
         isTest: data.isTest || false,
       },

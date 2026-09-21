@@ -1,0 +1,79 @@
+{
+  "common": {
+    "appName": "הזמנות אירועים",
+    "home": "בית",
+    "login": "התחברות",
+    "register": "הרשמה",
+    "logout": "התנתקות",
+    "create": "יצירה",
+    "edit": "עריכה",
+    "delete": "מחיקה",
+    "cancel": "ביטול",
+    "confirm": "אישור",
+    "save": "שמירה",
+    "preview": "תצוגה מקדימה",
+    "send": "שליחה",
+    "next": "הבא",
+    "back": "חזור",
+    "error": "שגיאה",
+    "success": "הצליח"
+  },
+  "auth": {
+    "email": "אימייל",
+    "password": "סיסמה",
+    "name": "שם מלא",
+    "phone": "טלפון",
+    "language": "שפה",
+    "loginTitle": "התחברות לחשבון",
+    "registerTitle": "יצירת חשבון חדש",
+    "noAccount": "אין לך חשבון?",
+    "haveAccount": "יש לך כבר חשבון?",
+    "forgotPassword": "שכחת סיסמה?"
+  },
+  "events": {
+    "newEvent": "אירוע חדש",
+    "eventType": "סוג האירוע",
+    "eventTitle": "כותרת האירוע",
+    "eventDate": "תאריך האירוע",
+    "eventTime": "שעת האירוע",
+    "eventLocation": "מיקום האירוע",
+    "eventDescription": "תיאור האירוע",
+    "template": "תבנית",
+    "selectTemplate": "בחר תבנית",
+    "uploadTemplate": "העלה תבנית משלך",
+    "eventTypes": {
+      "wedding": "חתונה",
+      "birthday": "יום הולדת",
+      "engagement": "אירוסין",
+      "brit": "ברית",
+      "anniversary": "יום נישואים",
+      "corporate": "חגיגה קורפורטיבית"
+    }
+  },
+  "templates": {
+    "selectTemplate": "בחר תבנית",
+    "defaultTemplates": "תבניות ברירת מחדל",
+    "customTemplate": "תבנית מותאמת אישית"
+  },
+  "contacts": {
+    "uploadContacts": "העלה רשימת אנשי קשר",
+    "contactName": "שם איש הקשר",
+    "contactPhone": "טלפון איש הקשר",
+    "addContact": "הוסף איש קשר",
+    "confirmCount": "מספר אנשים המאשרים הגעה",
+    "declineCount": "מספר אנשים שדחו"
+  },
+  "preview": {
+    "previewInvitation": "תצוגה מקדימה של ההזמנה",
+    "sendPreview": "שלח דוגמה ל-WhatsApp",
+    "phoneNumber": "מספר טלפון",
+    "sendTest": "שלח בדיקה"
+  },
+  "schedule": {
+    "scheduleTitle": "קביעת תאריך שליחה",
+    "sendDate": "תאריך שליחה",
+    "sendTime": "שעת שליחה",
+    "totalContacts": "סך הכל אנשי קשר",
+    "scheduleSend": "קבע שליחה"
+  }
+}

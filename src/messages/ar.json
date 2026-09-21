@@ -1,0 +1,79 @@
+{
+  "common": {
+    "appName": "دعوات الأحداث",
+    "home": "الرئيسية",
+    "login": "تسجيل الدخول",
+    "register": "التسجيل",
+    "logout": "تسجيل الخروج",
+    "create": "إنشاء",
+    "edit": "تحرير",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "preview": "معاينة",
+    "send": "إرسال",
+    "next": "التالي",
+    "back": "رجوع",
+    "error": "خطأ",
+    "success": "نجح"
+  },
+  "auth": {
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "name": "الاسم الكامل",
+    "phone": "الهاتف",
+    "language": "اللغة",
+    "loginTitle": "تسجيل الدخول إلى الحساب",
+    "registerTitle": "إنشاء حساب جديد",
+    "noAccount": "ليس لديك حساب؟",
+    "haveAccount": "هل لديك حساب بالفعل؟",
+    "forgotPassword": "هل نسيت كلمة المرور؟"
+  },
+  "events": {
+    "newEvent": "حدث جديد",
+    "eventType": "نوع الحدث",
+    "eventTitle": "عنوان الحدث",
+    "eventDate": "تاريخ الحدث",
+    "eventTime": "وقت الحدث",
+    "eventLocation": "موقع الحدث",
+    "eventDescription": "وصف الحدث",
+    "template": "نموذج",
+    "selectTemplate": "اختر نموذج",
+    "uploadTemplate": "قم بتحميل النموذج الخاص بك",
+    "eventTypes": {
+      "wedding": "زفاف",
+      "birthday": "عيد ميلاد",
+      "engagement": "خطوبة",
+      "brit": "عهد",
+      "anniversary": "ذكرى الزواج",
+      "corporate": "حدث شركة"
+    }
+  },
+  "templates": {
+    "selectTemplate": "اختر نموذج",
+    "defaultTemplates": "النماذج الافتراضية",
+    "customTemplate": "نموذج مخصص"
+  },
+  "contacts": {
+    "uploadContacts": "قم بتحميل قائمة الاتصالات",
+    "contactName": "اسم الاتصال",
+    "contactPhone": "هاتف الاتصال",
+    "addContact": "إضافة اتصال",
+    "confirmCount": "عدد الحاضرين المؤكدين",
+    "declineCount": "عدد الرافضين"
+  },
+  "preview": {
+    "previewInvitation": "معاينة الدعوة",
+    "sendPreview": "إرسال معاينة عبر واتس اب",
+    "phoneNumber": "رقم الهاتف",
+    "sendTest": "إرسال اختبار"
+  },
+  "schedule": {
+    "scheduleTitle": "جدولة الإرسال",
+    "sendDate": "تاريخ الإرسال",
+    "sendTime": "وقت الإرسال",
+    "totalContacts": "إجمالي الاتصالات",
+    "scheduleSend": "جدولة الإرسال"
+  }
+}

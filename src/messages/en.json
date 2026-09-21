@@ -1,0 +1,79 @@
+{
+  "common": {
+    "appName": "Event Invitations",
+    "home": "Home",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "preview": "Preview",
+    "send": "Send",
+    "next": "Next",
+    "back": "Back",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Full Name",
+    "phone": "Phone",
+    "language": "Language",
+    "loginTitle": "Login to Account",
+    "registerTitle": "Create New Account",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "forgotPassword": "Forgot password?"
+  },
+  "events": {
+    "newEvent": "New Event",
+    "eventType": "Event Type",
+    "eventTitle": "Event Title",
+    "eventDate": "Event Date",
+    "eventTime": "Event Time",
+    "eventLocation": "Event Location",
+    "eventDescription": "Event Description",
+    "template": "Template",
+    "selectTemplate": "Select Template",
+    "uploadTemplate": "Upload Your Template",
+    "eventTypes": {
+      "wedding": "Wedding",
+      "birthday": "Birthday",
+      "engagement": "Engagement",
+      "brit": "Brit Milah",
+      "anniversary": "Anniversary",
+      "corporate": "Corporate Event"
+    }
+  },
+  "templates": {
+    "selectTemplate": "Select Template",
+    "defaultTemplates": "Default Templates",
+    "customTemplate": "Custom Template"
+  },
+  "contacts": {
+    "uploadContacts": "Upload Contact List",
+    "contactName": "Contact Name",
+    "contactPhone": "Contact Phone",
+    "addContact": "Add Contact",
+    "confirmCount": "Confirmed Attendees",
+    "declineCount": "Declined"
+  },
+  "preview": {
+    "previewInvitation": "Preview Invitation",
+    "sendPreview": "Send Preview via WhatsApp",
+    "phoneNumber": "Phone Number",
+    "sendTest": "Send Test"
+  },
+  "schedule": {
+    "scheduleTitle": "Schedule Send",
+    "sendDate": "Send Date",
+    "sendTime": "Send Time",
+    "totalContacts": "Total Contacts",
+    "scheduleSend": "Schedule Send"
+  }
+}

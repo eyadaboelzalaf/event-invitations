@@ -1,24 +1,19 @@
-import mongoose, { Schema, Document, Types } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IEvent extends Document {
-  userId: Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
   title: string;
-  type: 'wedding' | 'birthday' | 'engagement' | 'brit' | 'anniversary' | 'corporate';
+  type: string;
   eventDate: Date;
   eventTime: string;
   location: string;
-  description: string;
-  templateId?: Types.ObjectId;
-  customizations: Record<string, any>;
-  contacts: Types.ObjectId[];
-  sendDate?: Date;
-  sendTime?: string;
-  status: 'draft' | 'preview' | 'scheduled' | 'sent';
+  description?: string;
+  templateId?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const EventSchema: Schema = new Schema(
+const eventSchema = new Schema<IEvent>(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -31,7 +26,6 @@ const EventSchema: Schema = new Schema(
     },
     type: {
       type: String,
-      enum: ['wedding', 'birthday', 'engagement', 'brit', 'anniversary', 'corporate'],
       required: true,
     },
     eventDate: {
@@ -53,33 +47,12 @@ const EventSchema: Schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Template',
       required: false,
-    },
-    customizations: {
-      type: Schema.Types.Mixed,
-      default: {},
-    },
-    contacts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Contact',
-      },
-    ],
-    sendDate: {
-      type: Date,
-    },
-    sendTime: {
-      type: String,
-    },
-    status: {
-      type: String,
-      enum: ['draft', 'preview', 'scheduled', 'sent'],
-      default: 'draft',
+      sparse: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-export default mongoose.models.Event ||
-  mongoose.model<IEvent>('Event', EventSchema);
+const Event = mongoose.models.Event || mongoose.model<IEvent>('Event', eventSchema);
+
+export default Event;

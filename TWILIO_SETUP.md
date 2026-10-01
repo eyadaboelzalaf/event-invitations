@@ -14,11 +14,44 @@ Go to your event preview page and send a test message. You'll see it logged in y
 
 ### Real WhatsApp: Enable Twilio
 
-To send **REAL WhatsApp messages**, follow these 3 steps:
+To send **REAL WhatsApp messages**, follow these 4 steps (Twilio requires message templates):
 
 ---
 
-## 📋 **Step 1: Create Twilio Account (5 minutes)**
+## 📋 **Step 1: Create Message Template in Twilio (5 minutes)**
+
+**Important**: Twilio WhatsApp requires message templates.
+
+### Option A: Via Twilio Console (Recommended)
+
+1. Go to: https://console.twilio.com/us1/develop/sms/content
+2. Click **"Create Content"**
+3. Fill in:
+   - **Name**: `event_invitation`
+   - **Language**: English  
+   - **Body**: Copy this exactly:
+   ```
+   🎉 You're invited to {{1}}!
+
+   📅 {{2}}
+   🕐 {{3}}
+   📍 {{4}}
+
+   {{5}}
+
+   Please click the link below to confirm your attendance:
+   {{6}}
+   ```
+4. Click **"Create"**
+5. Copy the **Content SID** (looks like: `HXxxxxxxxxxxxxxxxxxxxxxxxx`)
+
+### Option B: Get existing template SID
+
+If you already have templates created, find the one you want to use and copy its Content SID.
+
+---
+
+## 🔑 **Step 2: Create Twilio Account (5 minutes)**
 
 1. Go to: https://www.twilio.com/try-twilio
 2. Sign up with your email
@@ -28,29 +61,28 @@ To send **REAL WhatsApp messages**, follow these 3 steps:
 
 ---
 
-## 🔑 **Step 2: Get Twilio Credentials (2 minutes)**
+## 🔑 **Step 3: Get Twilio Credentials (2 minutes)**
 
 1. Go to: https://console.twilio.com
 2. Copy your **Account SID** (looks like: `ACxxxxxxxxxxxxxxxxxxxxxxxx`)
-3. Copy your **Auth Token** (looks like: `your_auth_token_here`)
+3. Copy your **Auth Token** (click eye icon to reveal) (looks like: `your_auth_token_here`)
 4. Go to: https://console.twilio.com/us1/develop/phone-numbers/getting-started/whatsapp-sandbox
 5. Copy your **WhatsApp Sandbox Number** (looks like: `whatsapp:+1234567890`)
 
 ---
 
-## ⚙️ **Step 3: Configure `.env.local` (1 minute)**
+## ⚙️ **Step 4: Configure `.env.local` (2 minutes)**
 
 On your Windows machine, edit: `C:\projects\event-invitations\.env.local`
 
-Add these lines:
+Add these lines (**replace with YOUR values**):
 
 ```env
 TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=your_auth_token_here
 TWILIO_WHATSAPP_NUMBER=whatsapp:+1234567890
+TWILIO_CONTENT_SID=HXxxxxxxxxxxxxxxxxxxxxxxxx
 ```
-
-**Replace with YOUR credentials from Step 2.**
 
 Your `.env.local` should look like:
 
@@ -59,6 +91,7 @@ MONGODB_URI=mongodb+srv://...
 TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxx
 TWILIO_AUTH_TOKEN=your_auth_token_here
 TWILIO_WHATSAPP_NUMBER=whatsapp:+1234567890
+TWILIO_CONTENT_SID=HXxxxxxxxxxxxxxxxxxxxxxxxx
 NEXTAUTH_URL=http://localhost:3000
 ...
 ```
@@ -67,13 +100,15 @@ Save the file.
 
 ---
 
-## 🧪 **Step 4: Test It**
+## 🧪 **Step 5: Test It**
 
 1. Restart your app: `npm run dev`
 2. Go to: `http://localhost:3000/dashboard`
 3. Click your event
-4. Send a test message to **any WhatsApp number**
-5. **Check that number's WhatsApp** - message should arrive! ✅
+4. Send a test message to **your own WhatsApp number** (+972526517768)
+5. **Check your WhatsApp** - invitation message should arrive! ✅
+
+(Note: In sandbox mode, you can only send to numbers you've verified with Twilio)
 
 ---
 
